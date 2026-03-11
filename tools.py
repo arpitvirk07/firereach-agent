@@ -1,17 +1,15 @@
-# tools.py
-
+import os
 from groq import Groq
+import smtplib
+from email.mime.text import MIMEText
 
-# initialize groq client
+# Initialize Groq client using environment variable
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 
-# -------------------------------
-# TOOL 1 : Signal Harvester
-# -------------------------------
+# TOOL 1: Signal Harvester
 def tool_signal_harvester(company):
 
-    # Simulated signals (prototype)
     signals = [
         f"{company} recently raised a funding round.",
         f"{company} is hiring new engineering roles.",
@@ -21,9 +19,7 @@ def tool_signal_harvester(company):
     return signals
 
 
-# -------------------------------
-# TOOL 2 : Research Analyst
-# -------------------------------
+# TOOL 2: Research Analyst
 def tool_research_analyst(icp, company, signals):
 
     prompt = f"""
@@ -35,9 +31,9 @@ Company: {company}
 Signals:
 {signals}
 
-Write a 2 paragraph account brief explaining:
-1) what the company is doing
-2) how cybersecurity training could help them.
+Write a short account brief explaining:
+1. company growth
+2. why cybersecurity training helps them
 """
 
     response = client.chat.completions.create(
@@ -45,17 +41,14 @@ Write a 2 paragraph account brief explaining:
         messages=[{"role": "user", "content": prompt}]
     )
 
-    research = response.choices[0].message.content
-
-    return research
-import smtplib
-from email.mime.text import MIMEText
+    return response.choices[0].message.content
 
 
+# TOOL 3: Automated Email Sender
 def tool_outreach_automated_sender(receiver_email, message):
 
-   sender_email = os.getenv("SENDER_EMAIL")
-   password = os.getenv("EMAIL_PASSWORD")
+    sender_email = os.getenv("SENDER_EMAIL")
+    password = os.getenv("EMAIL_PASSWORD")
 
     msg = MIMEText(message)
     msg["Subject"] = "Cybersecurity Training for Growing Startups"
