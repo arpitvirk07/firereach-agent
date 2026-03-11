@@ -1,10 +1,12 @@
 import os
 from groq import Groq
-import smtplib
-from email.mime.text import MIMEText
+import resend
 
 # Initialize Groq client
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+# Initialize Resend API
+resend.api_key = os.getenv("RESEND_API_KEY")
 
 
 # Tool 1: Signal Harvester
@@ -44,23 +46,14 @@ Write a short account brief explaining:
     return response.choices[0].message.content
 
 
-# Tool 3: Automated Email Sender
+# Tool 3: Automated Email Sender (using Resend API)
 def tool_outreach_automated_sender(receiver_email, message):
 
-    sender_email = os.getenv("SENDER_EMAIL")
-    password = os.getenv("EMAIL_PASSWORD")
-
-    msg = MIMEText(message)
-    msg["Subject"] = "Cybersecurity Training for Growing Startups"
-    msg["From"] = sender_email
-    msg["To"] = receiver_email
-
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-
-    server.login(sender_email, password)
-    server.send_message(msg)
-
-    server.quit()
+    resend.Emails.send({
+        "from": "FireReach <onboarding@resend.dev>",
+        "to": receiver_email,
+        "subject": "Cybersecurity Training for Growing Startups",
+        "text": message
+    })
 
     return "Email sent successfully"
