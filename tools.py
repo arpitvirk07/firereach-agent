@@ -3,7 +3,7 @@
 from groq import Groq
 
 # initialize groq client
-client = Groq(api_key="<REDACTED>")
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 
 # -------------------------------
@@ -54,8 +54,8 @@ from email.mime.text import MIMEText
 
 def tool_outreach_automated_sender(receiver_email, message):
 
-    sender_email ="arpitvirk07@gmail.com"
-    password = "<REDACTED>"
+   sender_email = os.getenv("SENDER_EMAIL")
+   password = os.getenv("EMAIL_PASSWORD")
 
     msg = MIMEText(message)
     msg["Subject"] = "Cybersecurity Training for Growing Startups"
