@@ -1,8 +1,8 @@
 # FireReach – Autonomous Outreach Agent
 
-FireReach is a lightweight Agentic AI system that automates outbound sales outreach. The system captures company signals, analyzes them using a Large Language Model (LLM), generates a personalized outreach email, and prepares it for automated delivery.
+FireReach is a lightweight Agentic AI system that automates outbound sales outreach. The system captures company signals, analyzes them using a Large Language Model (LLM), generates a personalized outreach email, and automatically sends it.
 
-This prototype demonstrates how AI agents can combine live company signals, reasoning, and automation to perform sales outreach tasks efficiently.
+This prototype demonstrates how AI agents can combine company signals, reasoning, and automation to perform outreach tasks with minimal human intervention.
 
 ---
 
@@ -11,20 +11,20 @@ This prototype demonstrates how AI agents can combine live company signals, reas
 - Signal harvesting from company activity
 - AI-generated account research
 - Personalized outreach email generation
-- Autonomous outreach pipeline
-- FastAPI backend with API testing interface
+- Automated email delivery
+- FastAPI backend with interactive API interface
 - Live deployed prototype
 
 ---
 
 ## Agent Workflow
 
-User Input → Signal Harvester → Research Analyst → Email Generator → Email Sender
+User Input → Signal Harvester → Research Analyst → Email Generator → Automated Sender
 
 1. User provides:
    - ICP (Ideal Customer Profile)
-   - Company name
-   - Target email address
+   - Target company
+   - Email address
 
 2. The agent collects signals about the company.
 
@@ -32,7 +32,7 @@ User Input → Signal Harvester → Research Analyst → Email Generator → Ema
 
 4. A personalized outreach email is generated.
 
-5. The outreach email is prepared for automated delivery.
+5. The outreach email is automatically sent using an email API.
 
 ---
 
@@ -42,9 +42,9 @@ User Input → Signal Harvester → Research Analyst → Email Generator → Ema
 
 Captures company growth signals such as:
 
-- funding rounds
-- hiring trends
-- company expansion
+- funding rounds  
+- hiring trends  
+- company expansion  
 
 ---
 
@@ -52,30 +52,36 @@ Captures company growth signals such as:
 
 Uses Groq LLM to analyze signals and generate an account brief explaining:
 
-- company growth situation
-- potential cybersecurity risks
-- how cybersecurity training aligns with company needs
+- company growth situation  
+- cybersecurity risks  
+- how cybersecurity training aligns with company needs  
 
 ---
 
 ### tool_outreach_automated_sender
 
-Generates and sends the outreach email using Gmail SMTP.
+Automatically sends the generated outreach email using the Resend email API.
 
-Note:  
-Email sending works during local testing. In the deployed cloud prototype, SMTP is disabled due to cloud provider network restrictions. The generated email is returned in the API response instead.
+Using an email API allows reliable email delivery in cloud environments where SMTP ports are restricted.
 
 ---
 
 ## Tech Stack
 
-- Python
-- FastAPI
-- Groq API (LLM)
-- Gmail SMTP
-- Render (deployment platform)
+- Python  
+- FastAPI  
+- Groq API (LLM)  
+- Resend Email API  
+- Render (deployment)
 
+---
 
+## Running Locally
 
+Install dependencies:
 
+pip install -r requirements.txt
 
+Run the server:
+
+uvicorn main:app --reload
