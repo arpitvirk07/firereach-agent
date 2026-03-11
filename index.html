@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FireReach Agent</title>
+</head>
+
+<body>
+
+<h1>FireReach Autonomous Outreach</h1>
+
+<label>ICP</label><br>
+<input id="icp" size="60"><br><br>
+
+<label>Company</label><br>
+<input id="company"><br><br>
+
+<label>Email</label><br>
+<input id="email"><br><br>
+
+<button onclick="runAgent()">Run FireReach Agent</button>
+
+<h2>Results</h2>
+
+<pre id="output"></pre>
+
+<script>
+
+async function runAgent(){
+
+let icp = document.getElementById("icp").value
+let company = document.getElementById("company").value
+let email = document.getElementById("email").value
+
+let url = `/run-agent?icp=${icp}&company=${company}&email=${email}`
+
+let res = await fetch(url)
+
+let data = await res.json()
+
+document.getElementById("output").innerText =
+JSON.stringify(data,null,2)
+
+}
+
+</script>
+
+</body>
+</html>
