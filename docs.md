@@ -2,29 +2,26 @@
 
 ## Overview
 
-FireReach is an autonomous outreach prototype that demonstrates how AI agents can automate outbound sales workflows. The system gathers company growth signals, analyzes them using a Large Language Model (LLM), generates contextual account insights, and creates personalized outreach emails.
+FireReach is an autonomous outreach prototype designed to demonstrate how AI agents can automate outbound sales workflows. The system gathers company growth signals, analyzes them using an LLM, generates contextual account insights, and creates personalized outreach emails that can be automatically delivered.
 
-The goal of the system is to demonstrate an **agentic workflow where multiple tools cooperate sequentially** to complete a task.
+The system follows an agent-based pipeline where multiple tools work together sequentially to complete an outreach task.
 
 ---
 
 ## Logic Flow
 
-1. The user provides:
-   - ICP (Ideal Customer Profile)
+1. User provides:
+   - ICP
    - Target company
    - Email address
 
 2. The agent calls **tool_signal_harvester** to collect company growth signals.
 
-3. The agent calls **tool_research_analyst** to analyze the signals using an LLM and generate an account brief.
+3. The agent calls **tool_research_analyst** to analyze signals using an LLM and generate account insights.
 
-4. The system generates a personalized outreach email referencing the collected signals and insights.
+4. The agent generates a personalized outreach email referencing the signals and research.
 
-5. The agent calls **tool_outreach_automated_sender** to automatically send the generated outreach email.
-
-Note:  
-In the deployed prototype, SMTP email sending is disabled due to cloud provider network restrictions. The generated outreach email is returned in the API response instead.
+5. The agent calls **tool_outreach_automated_sender** to send the email automatically.
 
 ---
 
@@ -36,11 +33,11 @@ Purpose:
 
 Collects relevant company growth signals.
 
-Example signals include:
+Example signals:
 
 - funding announcements
-- hiring trends
-- product expansion
+- hiring activity
+- team expansion
 
 Output:
 
@@ -58,15 +55,15 @@ Inputs:
 
 - ICP
 - company name
-- signals captured by the signal harvester
+- signals from the signal harvester
 
 Output:
 
-A research summary describing:
+Account insight explaining:
 
-- company growth context
-- cybersecurity risks
-- alignment with cybersecurity training solutions
+- company growth
+- cybersecurity needs
+- how cybersecurity training helps the company
 
 ---
 
@@ -74,7 +71,11 @@ A research summary describing:
 
 Purpose:
 
-Sends the generated outreach email using Gmail SMTP.
+Automatically sends the generated outreach email.
+
+Implementation:
+
+The system uses the Resend email API to deliver emails. Email APIs are preferred in cloud environments because many cloud platforms restrict SMTP ports.
 
 Inputs:
 
@@ -83,24 +84,21 @@ Inputs:
 
 Output:
 
-Email sent confirmation.
-
-Note:
-
-Email sending works in the local environment. In the deployed prototype, SMTP functionality is disabled due to cloud infrastructure restrictions.
+Email delivery confirmation.
 
 ---
 
 ## System Prompt
 
-The agent behaves as a GTM outreach assistant that:
+The agent acts as a GTM outreach assistant that:
 
 - captures relevant company signals
-- analyzes company context
-- identifies potential cybersecurity needs
-- generates contextual outreach emails
+- analyzes company growth context
+- identifies cybersecurity training opportunities
+- generates contextual outreach messages
+- automates outreach delivery
 
-The system ensures that the outreach message references real signals gathered by the signal harvester.
+---
 
 
 ## Architecture Summary
@@ -115,4 +113,4 @@ Research Analyst
 ↓  
 Email Generator  
 ↓  
-Automated Outreach
+Automated Email Sender
