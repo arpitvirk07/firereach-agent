@@ -29,11 +29,11 @@ FireReach AI
 """
 
     # Step 4 – Send email
-   # tool_outreach_automated_sender(email, email_text)
+    tool_outreach_automated_sender(email, email_text)
 
     return {
         "signals": signals,
         "research": research,
         "email": email_text,
-        "status": "Email sent"
+        "status": "Email sent successfully"
     }
