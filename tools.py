@@ -46,11 +46,11 @@ Write a short account brief explaining:
     return response.choices[0].message.content
 
 
-# Tool 3: Automated Email Sender (using Resend API)
+# Tool 3: Automated Email Sender (Resend API)
 def tool_outreach_automated_sender(receiver_email, message):
 
     resend.Emails.send({
-        "from": "FireReach <onboarding@resend.dev>",
+        "from": "FireReach Agent <onboarding@resend.dev>",
         "to": receiver_email,
         "subject": "Cybersecurity Training for Growing Startups",
         "text": message
