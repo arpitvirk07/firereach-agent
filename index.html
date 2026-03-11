@@ -1,27 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+<meta charset="UTF-8">
 <title>FireReach Agent</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
-<body>
+<body class="bg-gray-100 min-h-screen">
 
-<h1>FireReach Autonomous Outreach</h1>
+<div class="max-w-4xl mx-auto p-8">
 
-<label>ICP</label><br>
-<input id="icp" size="60"><br><br>
+<h1 class="text-4xl font-bold text-center text-blue-600 mb-8">
+FireReach Autonomous Outreach
+</h1>
 
-<label>Company</label><br>
-<input id="company"><br><br>
+<div class="bg-white p-6 rounded-lg shadow-md">
 
-<label>Email</label><br>
-<input id="email"><br><br>
+<h2 class="text-xl font-semibold mb-4">Run Outreach Agent</h2>
 
-<button onclick="runAgent()">Run FireReach Agent</button>
+<div class="space-y-4">
 
-<h2>Results</h2>
+<div>
+<label class="block font-medium">Ideal Customer Profile</label>
+<input id="icp"
+class="w-full border rounded p-2"
+placeholder="cybersecurity training for Series B startups">
+</div>
 
-<pre id="output"></pre>
+<div>
+<label class="block font-medium">Target Company</label>
+<input id="company"
+class="w-full border rounded p-2"
+placeholder="Stripe">
+</div>
+
+<div>
+<label class="block font-medium">Target Email</label>
+<input id="email"
+class="w-full border rounded p-2"
+placeholder="example@gmail.com">
+</div>
+
+<button
+onclick="runAgent()"
+class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+Run FireReach Agent
+</button>
+
+</div>
+
+</div>
+
+<div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+
+<h2 class="text-xl font-semibold mb-4">Agent Output</h2>
+
+<div class="space-y-6">
+
+<div>
+<h3 class="font-semibold text-gray-700">Signals</h3>
+<pre id="signals" class="bg-gray-100 p-3 rounded"></pre>
+</div>
+
+<div>
+<h3 class="font-semibold text-gray-700">Research</h3>
+<pre id="research" class="bg-gray-100 p-3 rounded"></pre>
+</div>
+
+<div>
+<h3 class="font-semibold text-gray-700">Generated Email</h3>
+<pre id="email_output" class="bg-gray-100 p-3 rounded"></pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 <script>
 
@@ -31,18 +89,19 @@ let icp = document.getElementById("icp").value
 let company = document.getElementById("company").value
 let email = document.getElementById("email").value
 
-let url = `/run-agent?icp=${icp}&company=${company}&email=${email}`
+let url = `/run-agent?icp=${encodeURIComponent(icp)}&company=${encodeURIComponent(company)}&email=${encodeURIComponent(email)}`
 
 let res = await fetch(url)
-
 let data = await res.json()
 
-document.getElementById("output").innerText =
-JSON.stringify(data,null,2)
+document.getElementById("signals").innerText = data.signals
+document.getElementById("research").innerText = data.research
+document.getElementById("email_output").innerText = data.email
 
 }
 
 </script>
 
 </body>
+
 </html>
